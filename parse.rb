@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'nokogiri'
 require 'open-uri'
 
 url = URI.parse('http://www.google.com')
