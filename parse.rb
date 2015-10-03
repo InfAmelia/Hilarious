@@ -1,9 +1,7 @@
-require 'rubygems'
 require 'open-uri'
+require 'nokogiri'
 
-url = URI.parse('http://www.google.com')
-open(url) do |http|
-    response = http.read
-    puts "response: #{response.inspect}"
+doc = Nokogiri::HTML(open("http://www.reddit.com/r/gifs/.xml"))
+doc.xpath('//item/title').each do |node|
+  puts node.text  
 end
-
