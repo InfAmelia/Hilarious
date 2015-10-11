@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'nokogiri'
 require './visit.rb'
+require './history.rb'
 
 URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
 COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]/div[@class="md"]'
@@ -93,6 +94,8 @@ parse_for_comments
 #   print_all_titles
 #   print_all_comments
 # end
+h = History.new
 
-v = Visit.new(@links[0],@titles[0],@comments)
-v.print
+h.add_visit(Visit.new(@links[0], @titles[0], @comments))
+
+h.print_at(0)

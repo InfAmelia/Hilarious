@@ -6,6 +6,8 @@ class Visit
   @link = ""
   comments = Array.new
 
+
+
   def initialize(link, title, comments)
     @link = link
     @title = title
@@ -22,5 +24,9 @@ class Visit
     end
   end
 
+
+  def get_link
+    return @link
+  end
 
 end
