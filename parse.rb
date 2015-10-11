@@ -1,6 +1,6 @@
 require 'open-uri'
 require 'nokogiri'
-
+require './visit.rb'
 
 URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
 COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]/div[@class="md"]'
@@ -83,15 +83,16 @@ def print_all_titles
   end
 end
 
-
-
 # Maintains current testing functionality.
 # Parse for links -> Parse for Comments -> Check to make sure both are working.
 # # # # # # # # # # # # # # # #
 parse_for_links
 parse_for_comments
-unless empty_links?
-  print_all_links
-  print_all_titles
-  print_all_comments
-end
+# unless empty_links?
+#   print_all_links
+#   print_all_titles
+#   print_all_comments
+# end
+
+v = Visit.new(@links[0],@titles[0],@comments)
+v.print
