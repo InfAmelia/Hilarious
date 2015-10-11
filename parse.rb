@@ -12,6 +12,9 @@ URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
 @links = Array.new
 @titles = Array.new
 @comments = Array.new
+@commentses = Array.new
+
+
 
 
 # Crawls through URL_TO_CRAWL in order to find threads for parse_for_comments
@@ -29,18 +32,18 @@ end
 # for hilarious ends. TODO Write Manip.
 # COMMENT_PARSE_KEY dictates the current method of searching for links.
 # # # # # # # # # # # # # # # #
-def parse_for_links
-  coms = Nokogiri::HTML(open(URL_TO_CRAWL))
-  coms.xpath(COMMENT_PARSE_KEY).each do |node|
-    @comments.push(node.text)
+def parse_for_titles
+  titles = Nokogiri::HTML(open(URL_TO_CRAWL))
+  titles.xpath(COMMENT_PARSE_KEY).each do |node|
+    @titles.push(node.text)
   end
 end
 
 # Parses through URL_TO_PARSE in order to find comments to later manipulate
 # for hilarious ends. TODO Write Manip.
 # # # # # # # # # # # # # # # #
-def parse_for_comments
-  thread = Nokogiri::HTML(open(URL_TO_PARSE))
+def parse_for_comments(url)
+  thread = Nokogiri::HTML(open(url))
   thread.xpath(COMMENT_PARSE_KEY).each do |node|
     @comments.push(node.text)
   end
@@ -84,18 +87,14 @@ def print_all_titles
   end
 end
 
-# Maintains current testing functionality.
-# Parse for links -> Parse for Comments -> Check to make sure both are working.
-# # # # # # # # # # # # # # # #
+
 parse_for_links
-parse_for_comments
-# unless empty_links?
-#   print_all_links
-#   print_all_titles
-#   print_all_comments
-# end
+parse_for_titles
+parse_for_comments(URL_TO_PARSE)
+
 h = History.new
+h.add_links(@links)
+h.add_titles_to_current_visit(@titles)
+h.parse_for_commentses
 
-h.add_visit(Visit.new(@links[0], @titles[0], @comments))
-
-h.print_at(0)
+h.print_all

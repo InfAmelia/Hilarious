@@ -8,25 +8,35 @@ class Visit
 
 
 
-  def initialize(link, title, comments)
+  # def initialize(link, title, comments)
+  #   @link = link
+  #   @title = title
+  #   @comments = comments
+  # end
+
+  def initialize(link)
+
     @link = link
-    @title = title
-    @comments = comments
+    @title = "Default"
+    @comments = []
+
   end
 
-
-
-  def print
-    puts @link
-    puts @title
-    @comments.each do |comment|
-      puts comment
-    end
+  def print(index)
+    puts "#{index}: #{@link} is now printing!"
   end
 
 
   def get_link
     return @link
+  end
+
+  def add_title(title)
+    @title = title
+  end
+
+  def add_comments(comments)
+    @comments = comments
   end
 
 end
