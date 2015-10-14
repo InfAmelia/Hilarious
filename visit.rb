@@ -4,36 +4,19 @@ class Visit
   # # # # # # # # # # # # # # # #
   def initialize(link)
     @link = link
-    @title = "Default"
+    @title = ""
     @comments = []
   end
 
-
+  attr_accessor :link
+  attr_accessor :title
+  attr_accessor :comments
 
   # # # # # # # # # # # # # # # #
   def add_comment(comment)
     @comments.push(comment)
   end
 
-  # # # # # # # # # # # # # # # #
-  def get_link
-    @link
-  end
-
-  # # # # # # # # # # # # # # # #
-  def get_title
-    @title
-  end
-
-  # # # # # # # # # # # # # # # #
-  def add_title(title)
-    @title = title
-  end
-
-  # # # # # # # # # # # # # # # #
-  def add_comments(comments)
-    @comments = comments
-  end
 
   # # # # # # # # # # # # # # # #
   def print(index)
@@ -44,13 +27,3 @@ class Visit
   end
 
 end
-
-
-  class Comment
-
-    def initialize(user, text)
-      @user = user
-      @text = text
-    end
-
-  end

@@ -1,4 +1,3 @@
-
 class Find
 
   # # Breaks Comments, Titles into words. Finds words that match "bad_words"
@@ -10,18 +9,39 @@ class Find
     puts Time.now.strftime(CLOCK_FORMAT) << "Finder standing by."
   end
 
-  def break_up_into_words(text)
-    @words = text.split(" ")
+  def break_up_into_words(string)
+    words_temp = string.split(" ")
+    @words.concat words_temp
   end
 
+  # def read_strings(strings)
+  #   puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Comment!"
+  #     strings.each do |string|
+  #       break_up_into_words(string)
+  #     end
+  # end
+
+
   # Given a string, break into words.
+  # SUPER LOUD.
   # # # # # # # # # # # # # # # #
-  def read_strings(strings)
-    puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Strings!"
-    strings.each do |string|
+  def read_array_of_strings(strings_ary, verbose: false)
+    if verbose
+      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Post!"
+    end
+
+    strings_ary.each do |string|
       break_up_into_words(string)
     end
   end
+
+   def read_array_of_array_of_strings(strings_ary_ary)
+     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Posts!"
+
+       strings_ary_ary.each do |strings_ary|
+         read_array_of_strings(strings_ary)
+       end
+    end
 
   # Given a Good / Bad words Dictionary, search for bad words and replace
   # them with good. Really loud method if verbose: true
@@ -29,6 +49,7 @@ class Find
   def substitute_words(verbose: false)
       # Build Good Words
       # # #
+      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: I am now substituting words."
       File.open("./good_words") do |f|
           f.each_line do |line|
               @good_words << line.chomp
@@ -52,7 +73,9 @@ class Find
           end
 
           unless word.gsub!(bad_word, @good_words[index]) == nil
-            puts Time.now.strftime(CLOCK_FORMAT) + "Finder: Substituting \"#{bad_word}\", for \"#{@good_words[index]}\""
+            if verbose
+              puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Substituting \"#{bad_word}\", for \"#{@good_words[index]}\""
+            end
           end
         end
       end

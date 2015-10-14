@@ -3,7 +3,7 @@ class Build
   # # Re-Builds for submission.
   # # # # # # # # # # # # # # # #
   def initialize
-    puts Time.now.strftime(CLOCK_FORMAT) + "Builder standing by."
+    puts Time.now.strftime(CLOCK_FORMAT) << "Builder standing by."
   end
 
 
@@ -11,4 +11,7 @@ class Build
 
   end
 
+  def status
+    puts Time.now.strftime(CLOCK_FORMAT) << "Builder: Twiddling thumbs."
+  end
 end

@@ -1,8 +1,3 @@
-# require 'open-uri'
-# require 'nokogiri'
-# require './visit.rb'
-# require './parse.rb'
-
 class History
 
   # # # # # # # # # # # # # # # # # # #
@@ -13,32 +8,54 @@ class History
   end
 
   # # # # # # # # # # # # # # # # # # #
-  def add_visit(visit)
-    puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added this visit: #{visit}"
+  def add_visit(visit, verbose: false)
+    if verbose
+      puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added this visit: #{visit}"
+    end
     @visits.push(visit)
   end
 
 
 
   # # # # # # # # # # # # # # # # # # #
-  def add_links(links)
+  def add_links(links, verbose: false)
+    puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding links."
+
     links.each do |link|
-      puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added this link: #{link}"
-      add_visit(Visit.new(link))
+        if verbose
+          if link.size > 35
+            puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added this link: ... it's a big one!"
+          else
+            puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added this link: #{link}"
+          end
+        end
+
+        add_visit(Visit.new(link))
     end
   end
 
   # # # # # # # # # # # # # # # # # # #
-  def add_titles_to_current_visit(titles)
+  def add_titles_to_current_visits(titles, verbose: false)
+    puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding titles."
+
     titles.each_with_index do |title, index|
-      puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added a title."
-      @visits[index].add_title(title)
+      if verbose
+        puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added a title."
+      end
+      @visits[index].title=(title)
     end
   end
 
 
+  def add_comment(comments)
+    puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding a comment."
+
+    @visits[0].comments=(comments)
+  end
+
+  # THESE NEED WORK
   # # # # # # # # # # # # # # # # # # #
-  def add_commentses_to_current_visit(commentses)
+  def add_commentses_to_current_visits(commentses)
     commentses.each_with_index do |comments, index|
       puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added comments to #{visit[index]}"
       @commentses[index].add_comments(comments)
@@ -65,11 +82,19 @@ class History
 
   # # # # # # # # # # # # # # # #
   def check_out_titles
-    text = []
-    @visits.each do |visit|
-      text << visit.get_title
-    end
-    text
+    titles = []
+      @visits.each do |visit|
+        titles << visit.title
+      end
+    return titles
+  end
+
+  def check_out_comments
+    comments = []
+      @visits.each do |visit|
+        comments << visit.comments
+      end
+    comments
   end
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@ Print Methods Below.

@@ -25,14 +25,17 @@ MUST PAIR IMPLICITLY.
 * gifshead.html
 * kittens.html
 
+Runtime: [Dictionary 100] => 1.7s
+Runtime: [Dictionary 1000] => 16.1s
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
 
 Things left to do:
 
-1. Figure out how to isolate commenter names, and comment text (should roll over from last build)
-2. Figure out API for page submission.
-3. Figure out how to add comments / control necessary bot-users.
-4. Figure out how to make this server-ready.
+. Figure out API for page submission.
+. Figure out how to add comments / controlling submissions.
+. Figure out how to make this server-ready.
+. Write recursive visiting to re-build each post.
+. Figure out how to isolate commenter names.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
