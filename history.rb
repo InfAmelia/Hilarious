@@ -1,12 +1,23 @@
 class History
 
+
+  URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
+  COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]/div[@class="md"]/p'
+  TITLE_PARSE_KEY = '//a[@class="title may-blank "]'
+  URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounter_divers_come_facetoface_with/"
+  URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
+  OFFLINE_PARSE_URL = "./molamola.html"
+  OFFLINE_CRAWL_URL = "./gifshead.html"
+
+
   # # # # # # # # # # # # # # # # # # #
   def initialize()
     puts Time.now.strftime(CLOCK_FORMAT) << "Historian standing by."
     @visits = []
-    @commentses = []
+    commentses = []
   end
 
+    attr_accessor :visits
   # # # # # # # # # # # # # # # # # # #
   def add_visit(visit, verbose: false)
     if verbose
@@ -55,27 +66,42 @@ class History
 
   # THESE NEED WORK
   # # # # # # # # # # # # # # # # # # #
-  def add_commentses_to_current_visits(commentses)
+  def add_comments_array_to_current_visits(commentses)
     commentses.each_with_index do |comments, index|
       puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added comments to #{visit[index]}"
-      @commentses[index].add_comments(comments)
+      commentses[index].add_comments(comments)
     end
   end
 
   #
   # # # # # # # # # # # # # # # # # # #
-  def parse_for_commentses()
-    @visits.each_with_index do |visit, index|
-      if (visit.get_link == "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/")
-        comments = Nokogiri::HTML(open("https://www.reddit.com" << visit.get_link))
-        comments.xpath(URL_PARSE_KEY).each do |comment|
-        visit[index].add_comment(comment)
+  def add_array_of_array_of_comments(online: true)
+
+    puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding comments."
+
+    if online
+      @visits.each_with_index do |visit, index|
+        if (visit.get_link == "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/")
+          comments = Nokogiri::HTML(open("https://www.reddit.com" << visit.get_link))
+          comments.xpath(COMMENT_PARSE_KEY).each do |comment|
+          visit.add_comment(comment.text)
           end
-      else
-        comments = Nokogiri::HTML(open(visit.get_link))
-        comments.xpath(URL_PARSE_KEY).each do |comment|
-        visit[index].add_comment(comment)
+        else
+          comments = Nokogiri::HTML(open(visit.get_link))
+          comments.xpath(COMMENT_PARSE_KEY).each do |comment|
+          visit.add_comment(comment.text)
           end
+        end
+      end
+    else
+      @visits.each_with_index do |visit, index|
+        if index == 2
+          comments = Nokogiri::HTML(open("./molamola.html"))
+
+          comments.xpath(COMMENT_PARSE_KEY).each do |comment|
+            visit.add_comment(comment.text)
+          end
+        end
       end
     end
   end
@@ -89,7 +115,7 @@ class History
     return titles
   end
 
-  def check_out_comments
+  def check_out_comment_library
     comments = []
       @visits.each do |visit|
         comments << visit.comments
@@ -101,13 +127,19 @@ class History
 
   # # # # # # # # # # # # # # # # # # #
   def print_at(index)
-    @visits[index].print(index)
+    @visits.each do |visit|
+      visit.comments.each_with_index do |comment, index|
+        puts "\t | #{index}: #{comment}"
+        puts
+      end
+    end
   end
 
   # # # # # # # # # # # # # # # # # # #
   def print_all
     @visits.each_with_index do |visit, index|
-      visit.print(index)
+      puts "\t\t   | #{index}: #{visit.inspect}"
+      puts
     end
   end
 

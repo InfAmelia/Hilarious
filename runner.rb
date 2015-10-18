@@ -21,20 +21,22 @@ CLOCK_FORMAT = "|%T.%L| "
           # Isolate Key Elements
           parser.parse_for_links(online: false)
           parser.parse_for_titles(online: false)
-          parser.parse_for_comments("./molamola.html")
+          parser.parse_for_comments("./molamola.html", online: false)
 
           # Build Unique Visit information
           historian.add_links(parser.links)
           historian.add_titles_to_current_visits(parser.titles)
-          historian.add_comment(parser.comments)
+          historian.add_array_of_array_of_comments(online: false)
 
           # Find words to swap
           finder.read_array_of_strings(historian.check_out_titles, verbose: LOUD)
-          finder.read_array_of_array_of_strings(historian.check_out_comments)
+          puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Titles!" #lazy
+          finder.read_array_of_array_of_comments(historian.check_out_comment_library)
           finder.substitute_words(verbose: LOUD)
           # Build new submissions (Title + Comments (w/ Users))
           # Submit them.
           builder.status
+          #historian.print_all
 
           end_time = Time.now
           runtime = end_time - start_time

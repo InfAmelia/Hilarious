@@ -8,9 +8,7 @@ class Visit
     @comments = []
   end
 
-  attr_accessor :link
-  attr_accessor :title
-  attr_accessor :comments
+  attr_accessor :link, :title, :comments
 
   # # # # # # # # # # # # # # # #
   def add_comment(comment)

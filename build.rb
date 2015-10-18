@@ -7,6 +7,7 @@ class Build
   end
 
 
+
   def build_post(title, comments, content: nil)
 
   end
@@ -14,4 +15,7 @@ class Build
   def status
     puts Time.now.strftime(CLOCK_FORMAT) << "Builder: Twiddling thumbs."
   end
+
+
+
 end

@@ -2,7 +2,7 @@ class Parse
 
 
 URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
-COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]/div[@class="md"]'
+COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]//div[@class="md"]'
 TITLE_PARSE_KEY = '//a[@class="title may-blank "]'
 URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounter_divers_come_facetoface_with/"
 URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
@@ -19,9 +19,7 @@ def initialize
   puts Time.now.strftime(CLOCK_FORMAT) << "Parser standing by."
 end
 
-attr_accessor :links
-attr_accessor :titles
-attr_accessor :comments
+attr_accessor :links, :titles, :comments
 
 # Crawls through URL_TO_CRAWL in order to find threads for parse_for_comments
 # URL_PARSE_KEY dictates the current method of searching for links.
@@ -66,7 +64,7 @@ def parse_for_titles(online: true, verbose: false)
 
   if online
     titles = Nokogiri::HTML(open(URL_TO_CRAWL))
-    titles.xpath(COMMENT_PARSE_KEY).each do |node|
+    titles.xpath(TITLE_PARSE_KEY).each do |node|
       if verbose
         puts Time.now.strftime(CLOCK_FORMAT) << "Parser: Found one!"
       end
@@ -74,7 +72,7 @@ def parse_for_titles(online: true, verbose: false)
     end
   else
     titles = Nokogiri::HTML(open(OFFLINE_CRAWL_URL))
-    titles.xpath(COMMENT_PARSE_KEY).each do |node|
+    titles.xpath(TITLE_PARSE_KEY).each do |node|
       if verbose
         puts Time.now.strftime(CLOCK_FORMAT) << "Parser: Found one!"
       end
@@ -93,12 +91,12 @@ def parse_for_comments(url, online: true)
   if online                                               # 1. Gather Usernames.
     thread = Nokogiri::HTML(open(url))                    # 2. Build Comment per Username.
     thread.xpath(COMMENT_PARSE_KEY).each do |node|        # 3. Gather text-bodies.
-      @comments << node.text                              # 4. Add text-bodies to Comments.
+      @comments << Comment.new.text=(node.text)                           # 4. Add text-bodies to Comments.
     end
   else
     thread = Nokogiri::HTML(open(url))
     thread.xpath(COMMENT_PARSE_KEY).each do |node|
-      @comments << node.text
+      @comments << Comment.new.text=(node.text)
     end
   end
 end
@@ -149,9 +147,12 @@ end
 
 class Comment
 
-  def initialize(user, text)
+  def initialize
     @user = user
     @text = text
   end
+
+  attr_accessor :user, :text
+
 
 end

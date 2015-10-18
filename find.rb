@@ -9,15 +9,27 @@ class Find
     puts Time.now.strftime(CLOCK_FORMAT) << "Finder standing by."
   end
 
-  def break_up_into_words(string)
+  def break_up_string_into_words(string)
+
     words_temp = string.split(" ")
     @words.concat words_temp
   end
 
+  def break_up_comments_into_string_array(comments)
+      comment_text = []
+
+      comments.each do |comment|
+        comment_text << comment
+      end
+
+      read_array_of_strings(comment_text)
+  end
+
+
   # def read_strings(strings)
   #   puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Comment!"
   #     strings.each do |string|
-  #       break_up_into_words(string)
+  #       break_up_string_into_words(string)
   #     end
   # end
 
@@ -27,21 +39,31 @@ class Find
   # # # # # # # # # # # # # # # #
   def read_array_of_strings(strings_ary, verbose: false)
     if verbose
-      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Post!"
+      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Titles!"
     end
 
     strings_ary.each do |string|
-      break_up_into_words(string)
+      break_up_string_into_words(string)
     end
   end
 
    def read_array_of_array_of_strings(strings_ary_ary)
-     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Posts!"
+     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Site!"
 
        strings_ary_ary.each do |strings_ary|
          read_array_of_strings(strings_ary)
        end
+
     end
+
+    def read_array_of_array_of_comments(comments_ary_ary)
+
+      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Comments!"
+         comments_ary_ary.each do |comments_ary|
+           break_up_comments_into_string_array(comments_ary)
+         end
+
+     end
 
   # Given a Good / Bad words Dictionary, search for bad words and replace
   # them with good. Really loud method if verbose: true
@@ -69,7 +91,7 @@ class Find
       @words.each do |word|
         @bad_words.each_with_index do |bad_word, index|
           if (verbose)
-            puts "Comparing #{word} to #{bad_word}"
+            puts "\t     | Comparing #{word} to #{bad_word}"
           end
 
           unless word.gsub!(bad_word, @good_words[index]) == nil
