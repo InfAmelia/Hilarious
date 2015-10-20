@@ -6,7 +6,7 @@ require './parse.rb'
 require './find.rb'
 require './build.rb'
 
-LOUD = false
+LOUD = true
 CLOCK_FORMAT = "|%T.%L| "
 ONLINE = true
 
@@ -41,7 +41,7 @@ ONLINE = true
 
 
             historian.print_all
-          
+
 
           end_time = Time.now
           runtime = end_time - start_time
