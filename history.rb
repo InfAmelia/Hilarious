@@ -31,7 +31,6 @@ class History
   # # # # # # # # # # # # # # # # # # #
   def add_links(links, verbose: false)
     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding links."
-
     links.each do |link|
         if verbose
           if link.size > 35
@@ -53,7 +52,7 @@ class History
       if verbose
         puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added a title."
       end
-      @visits[index].title=(title)
+        @visits[index].title=(title) unless @visits[index] == nil
     end
   end
 
@@ -75,19 +74,19 @@ class History
 
   #
   # # # # # # # # # # # # # # # # # # #
-  def add_array_of_array_of_comments(online: true)
+  def add_array_of_array_of_comments(c, online: true)
 
     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding comments."
 
     if online
       @visits.each_with_index do |visit, index|
-        if (visit.get_link == "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/")
-          comments = Nokogiri::HTML(open("https://www.reddit.com" << visit.get_link))
+        if (visit.link == "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/")
+          comments = Nokogiri::HTML(open("https://www.reddit.com" << visit.link))
           comments.xpath(COMMENT_PARSE_KEY).each do |comment|
           visit.add_comment(comment.text)
           end
         else
-          comments = Nokogiri::HTML(open(visit.get_link))
+          comments = Nokogiri::HTML(open(visit.link))
           comments.xpath(COMMENT_PARSE_KEY).each do |comment|
           visit.add_comment(comment.text)
           end
@@ -137,9 +136,10 @@ class History
 
   # # # # # # # # # # # # # # # # # # #
   def print_all
+    puts "MOOSE"
     @visits.each_with_index do |visit, index|
       puts "\t\t   | #{index}: #{visit.inspect}"
-      puts
+
     end
   end
 
