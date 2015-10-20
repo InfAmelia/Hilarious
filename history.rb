@@ -136,10 +136,9 @@ class History
 
   # # # # # # # # # # # # # # # # # # #
   def print_all
-    puts "MOOSE"
     @visits.each_with_index do |visit, index|
       puts "\t\t   | #{index}: #{visit.inspect}"
-
+      puts
     end
   end
 

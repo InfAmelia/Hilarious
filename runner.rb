@@ -6,7 +6,7 @@ require './parse.rb'
 require './find.rb'
 require './build.rb'
 
-LOUD = true
+LOUD = false
 CLOCK_FORMAT = "|%T.%L| "
 ONLINE = true
 
@@ -22,7 +22,7 @@ ONLINE = true
           # Isolate Key Elements
           parser.parse_for_links(online: ONLINE, verbose: LOUD)
           parser.parse_for_titles(online: ONLINE, verbose: LOUD)
-          parser.parse_for_comments("./molamola.html", online: ONLINE)
+          #parser.parse_for_comments("./molamola.html", online: ONLINE)
 
           # Build Unique Visit information
           historian.add_links(parser.links, verbose: LOUD)
@@ -39,9 +39,9 @@ ONLINE = true
           # Submit them.
           builder.status
 
-          if LOUD
+
             historian.print_all
-          end
+          
 
           end_time = Time.now
           runtime = end_time - start_time

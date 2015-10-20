@@ -87,9 +87,8 @@ end
 # for hilarious ends.
 # # # # # # # # # # # # # # # #
 def parse_for_comments(url, online: false)
-  puts Time.now.strftime(CLOCK_FORMAT) << "Parser: I am now parsing for comments."
-
   if url != "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/"
+    puts Time.now.strftime(CLOCK_FORMAT) << "Parser: I am now parsing for comments."
     if online
       thread = Nokogiri::HTML(open(url))
       thread.xpath(COMMENT_PARSE_KEY).each do |node|
@@ -101,8 +100,6 @@ def parse_for_comments(url, online: false)
         @comments << Comment.new.text=(node.text)
       end
     end
-  else
-    @comments << "Blank."
   end
 end
 
@@ -113,12 +110,9 @@ def parse_for_comments_from_visits(visits, online: false, verbose: false)
   if online
     visits.each do |visit|
       unless visit == nil
-        comments = ["Head"]
         parse_for_comments(visit.link)
-        puts comments
       end
     end
-    @all_comments
   end
 end
 
