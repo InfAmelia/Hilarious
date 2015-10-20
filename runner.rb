@@ -6,8 +6,9 @@ require './parse.rb'
 require './find.rb'
 require './build.rb'
 
-LOUD = false
+LOUD = true
 CLOCK_FORMAT = "|%T.%L| "
+ONLINE = true
 
           start_time = Time.now
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"
@@ -19,15 +20,16 @@ CLOCK_FORMAT = "|%T.%L| "
           builder = Build.new
 
           # Isolate Key Elements
-          parser.parse_for_links(online: false)
-          parser.parse_for_titles(online: false)
-          parser.parse_for_comments("./molamola.html", online: false)
+          parser.parse_for_links(online: ONLINE, verbose: LOUD)
+          parser.parse_for_titles(online: ONLINE, verbose: LOUD)
+          parser.parse_for_comments("./molamola.html", online: ONLINE)
 
           # Build Unique Visit information
-          historian.add_links(parser.links)
-          historian.add_titles_to_current_visits(parser.titles)
-          historian.add_array_of_array_of_comments(online: false)
+          historian.add_links(parser.links, verbose: LOUD)
+          historian.add_titles_to_current_visits(parser.titles, verbose: LOUD)
+          historian.add_array_of_array_of_comments(parser.parse_for_comments_from_visits(historian.visits, online: ONLINE), online: ONLINE)
 
+          parser.parse_for_comments_from_visits(historian.visits, online: ONLINE, verbose: LOUD)
           # Find words to swap
           finder.read_array_of_strings(historian.check_out_titles, verbose: LOUD)
           puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Titles!" #lazy
@@ -36,7 +38,10 @@ CLOCK_FORMAT = "|%T.%L| "
           # Build new submissions (Title + Comments (w/ Users))
           # Submit them.
           builder.status
-          #historian.print_all
+
+          if LOUD
+            historian.print_all
+          end
 
           end_time = Time.now
           runtime = end_time - start_time

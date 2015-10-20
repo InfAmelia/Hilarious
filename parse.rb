@@ -8,6 +8,7 @@ URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounte
 URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
 OFFLINE_PARSE_URL = "./molamola.html"
 OFFLINE_CRAWL_URL = "./gifshead.html"
+GIFSHEAD_PARSE_KEY = '//a[@class="comments may-blank"]/@href'
 
 
 # # # # # # # # # # # # # # # #
@@ -29,7 +30,7 @@ def parse_for_links(online: true, verbose: false)
 
   if online
     sub = Nokogiri::HTML(open(URL_TO_CRAWL))
-    sub.xpath(URL_PARSE_KEY).each do |node|
+    sub.xpath(GIFSHEAD_PARSE_KEY).each do |node|
       @links << node.text
       if verbose
         if node.text.size > 35
@@ -41,7 +42,8 @@ def parse_for_links(online: true, verbose: false)
     end
   else
     sub = Nokogiri::HTML(open(OFFLINE_CRAWL_URL))
-    sub.xpath(URL_PARSE_KEY).each do |node|
+    sub.xpath(GIFSHEAD_PARSE_KEY).each do |node|
+
       @links << node.text
       if verbose
         if node.text.size > 35
@@ -84,22 +86,42 @@ end
 # Parses through URL_TO_PARSE in order to find comments to later manipulate
 # for hilarious ends.
 # # # # # # # # # # # # # # # #
-def parse_for_comments(url, online: true)
+def parse_for_comments(url, online: false)
   puts Time.now.strftime(CLOCK_FORMAT) << "Parser: I am now parsing for comments."
 
-                                                          # TODO CONT.
-  if online                                               # 1. Gather Usernames.
-    thread = Nokogiri::HTML(open(url))                    # 2. Build Comment per Username.
-    thread.xpath(COMMENT_PARSE_KEY).each do |node|        # 3. Gather text-bodies.
-      @comments << Comment.new.text=(node.text)                           # 4. Add text-bodies to Comments.
+  if url != "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/"
+    if online
+      thread = Nokogiri::HTML(open(url))
+      thread.xpath(COMMENT_PARSE_KEY).each do |node|
+        @comments << Comment.new.text=(node.text)
+      end
+    else
+      thread = Nokogiri::HTML(open(url))
+      thread.xpath(COMMENT_PARSE_KEY).each do |node|
+        @comments << Comment.new.text=(node.text)
+      end
     end
   else
-    thread = Nokogiri::HTML(open(url))
-    thread.xpath(COMMENT_PARSE_KEY).each do |node|
-      @comments << Comment.new.text=(node.text)
-    end
+    @comments << "Blank."
   end
 end
+
+
+
+# # # # # # # # # # # #
+def parse_for_comments_from_visits(visits, online: false, verbose: false)
+  if online
+    visits.each do |visit|
+      unless visit == nil
+        comments = ["Head"]
+        parse_for_comments(visit.link)
+        puts comments
+      end
+    end
+    @all_comments
+  end
+end
+
 
 # Checks @links for any content at all.
 # If empty, save some time and don't try and print anything.

@@ -4,7 +4,7 @@ class Visit
   # # # # # # # # # # # # # # # #
   def initialize(link)
     @link = link
-    @title = ""
+    @title = "  "
     @comments = []
   end
 

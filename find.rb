@@ -49,7 +49,7 @@ class Find
 
    def read_array_of_array_of_strings(strings_ary_ary)
      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Site!"
-
+     
        strings_ary_ary.each do |strings_ary|
          read_array_of_strings(strings_ary)
        end
