@@ -36,6 +36,6 @@ Things left to do:
 . Figure out how to add comments / controlling submissions.
 . Figure out how to make this server-ready.
 . Write recursive visiting to re-build each post.
-. Figure out how to isolate commenter names.
+. Fix whatever I just broke.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
