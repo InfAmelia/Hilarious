@@ -135,10 +135,17 @@ class History
   end
 
   # # # # # # # # # # # # # # # # # # #
-  def print_all
-    @visits.each_with_index do |visit, index|
-      puts "\t\t   | #{index}: #{visit.inspect}"
-      puts
+  def print_all(verbose: false)
+    if verbose
+      @visits.each_with_index do |visit, index|
+        puts "\t\t   | #{index}: #{visit.inspect}"
+        puts
+      end
+    else
+
+      @visits.each_with_index do |visit, index|
+        puts "\t\t   | #{index}: #{visit.comments}"
+      end
     end
   end
 

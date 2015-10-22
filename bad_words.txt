@@ -1,0 +1,4 @@
+rare
+encounter
+held
+unless

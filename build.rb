@@ -4,6 +4,7 @@ class Build
   # # # # # # # # # # # # # # # #
   def initialize
     puts Time.now.strftime(CLOCK_FORMAT) << "Builder standing by."
+    @posts = []
   end
 
 

@@ -6,9 +6,9 @@ require './parse.rb'
 require './find.rb'
 require './build.rb'
 
-LOUD = true
+LOUD = false
 CLOCK_FORMAT = "|%T.%L| "
-ONLINE = true
+ONLINE = false
 
           start_time = Time.now
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"
@@ -29,18 +29,18 @@ ONLINE = true
           historian.add_titles_to_current_visits(parser.titles, verbose: LOUD)
           historian.add_array_of_array_of_comments(parser.parse_for_comments_from_visits(historian.visits, online: ONLINE), online: ONLINE)
 
-          parser.parse_for_comments_from_visits(historian.visits, online: ONLINE, verbose: LOUD)
+          #historian.add_array_of_array_of_comments(parser.parse_for_comments_from_visits(historian.visits, online: ONLINE, verbose: LOUD), online: ONLINE)
+
           # Find words to swap
-          finder.read_array_of_strings(historian.check_out_titles, verbose: LOUD)
           puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Titles!" #lazy
-          finder.read_array_of_array_of_comments(historian.check_out_comment_library)
-          finder.substitute_words(verbose: LOUD)
+          finder.substitute_words_in_titles(historian.check_out_titles, verbose: true)
+          finder.substitute_words_in_comments([])
           # Build new submissions (Title + Comments (w/ Users))
           # Submit them.
           builder.status
 
+          historian.print_all(verbose: true)
 
-            historian.print_all
 
 
           end_time = Time.now

@@ -9,6 +9,7 @@ URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
 OFFLINE_PARSE_URL = "./molamola.html"
 OFFLINE_CRAWL_URL = "./gifshead.html"
 GIFSHEAD_PARSE_KEY = '//a[@class="comments may-blank"]/@href'
+SUB_JUNK_COMMENT_NUM = 10
 
 
 # # # # # # # # # # # # # # # #
@@ -87,20 +88,25 @@ end
 # for hilarious ends.
 # # # # # # # # # # # # # # # #
 def parse_for_comments(url, online: false)
-  if url != "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/"
+  #if url != "/r/gifs/comments/3dasau/rgifs_rules_please_read_before_submitting_or/"
     puts Time.now.strftime(CLOCK_FORMAT) << "Parser: I am now parsing for comments."
     if online
       thread = Nokogiri::HTML(open(url))
-      thread.xpath(COMMENT_PARSE_KEY).each do |node|
-        @comments << Comment.new.text=(node.text)
+      thread.xpath(COMMENT_PARSE_KEY).each_with_index do |node, index|
+
+         unless index <= SUB_JUNK_COMMENT_NUM
+           @comments << Comment.new.text=(node.text)
+         end
       end
     else
       thread = Nokogiri::HTML(open(url))
-      thread.xpath(COMMENT_PARSE_KEY).each do |node|
-        @comments << Comment.new.text=(node.text)
+      thread.xpath(COMMENT_PARSE_KEY).each_with_index do |node, index|
+        unless index <= SUB_JUNK_COMMENT_NUM
+          @comments << Comment.new.text=(node.text)
+        end
       end
     end
-  end
+  #end
 end
 
 
@@ -111,6 +117,14 @@ def parse_for_comments_from_visits(visits, online: false, verbose: false)
     visits.each do |visit|
       unless visit == nil
         parse_for_comments(visit.link)
+      end
+    end
+  else
+    visits.each_with_index do |visit, index|
+      unless visit == nil
+        if index == 3
+          parse_for_comments(OFFLINE_CRAWL_URL)
+        end
       end
     end
   end
