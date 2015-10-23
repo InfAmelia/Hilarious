@@ -8,7 +8,7 @@ require './build.rb'
 
 LOUD = false
 CLOCK_FORMAT = "|%T.%L| "
-ONLINE = false
+ONLINE = true
 
           start_time = Time.now
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"
@@ -34,7 +34,7 @@ ONLINE = false
           # Find words to swap
           puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Titles!" #lazy
           finder.substitute_words_in_titles(historian.check_out_titles, verbose: true)
-          finder.substitute_words_in_comments([])
+          finder.substitute_words_in_comments(historian.check_out_comment_library)
           # Build new submissions (Title + Comments (w/ Users))
           # Submit them.
           builder.status

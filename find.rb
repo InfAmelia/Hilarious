@@ -15,55 +15,55 @@ class Find
     @words.concat words_temp
   end
 
-  def break_up_comments_into_string_array(comments)
-      comment_text = []
-
-      comments.each do |comment|
-        comment_text << comment
-      end
-
-      read_array_of_strings(comment_text)
-  end
-
-
-  # def read_strings(strings)
-  #   puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Comment!"
-  #     strings.each do |string|
-  #       break_up_string_into_words(string)
+  # def break_up_comments_into_string_array(comments)
+  #     comment_text = []
+  #
+  #     comments.each do |comment|
+  #       comment_text << comment
   #     end
+  #
+  #     read_array_of_strings(comment_text)
   # end
-
-
-  # Given a string, break into words.
-  # SUPER LOUD.
-  # # # # # # # # # # # # # # # #
-  def read_array_of_strings(strings_ary, verbose: false)
-    if verbose
-      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Titles!"
-    end
-
-    strings_ary.each do |string|
-      break_up_string_into_words(string)
-    end
-  end
-
-   def read_array_of_array_of_strings(strings_ary_ary)
-     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Site!"
-
-       strings_ary_ary.each do |strings_ary|
-         read_array_of_strings(strings_ary)
-       end
-
-    end
-
-    def read_array_of_array_of_comments(comments_ary_ary)
-
-      puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Comments!"
-         comments_ary_ary.each do |comments_ary|
-           break_up_comments_into_string_array(comments_ary)
-         end
-
-     end
+  #
+  #
+  # # def read_strings(strings)
+  # #   puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Comment!"
+  # #     strings.each do |string|
+  # #       break_up_string_into_words(string)
+  # #     end
+  # # end
+  #
+  #
+  # # Given a string, break into words.
+  # # SUPER LOUD.
+  # # # # # # # # # # # # # # # # #
+  # def read_array_of_strings(strings_ary, verbose: false)
+  #   if verbose
+  #     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Titles!"
+  #   end
+  #
+  #   strings_ary.each do |string|
+  #     break_up_string_into_words(string)
+  #   end
+  # end
+  #
+  #  def read_array_of_array_of_strings(strings_ary_ary)
+  #    puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Site!"
+  #
+  #      strings_ary_ary.each do |strings_ary|
+  #        read_array_of_strings(strings_ary)
+  #      end
+  #
+  #   end
+  #
+  #   def read_array_of_array_of_comments(comments_ary_ary)
+  #
+  #     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Reading Comments!"
+  #        comments_ary_ary.each do |comments_ary|
+  #          break_up_comments_into_string_array(comments_ary)
+  #        end
+  #
+  #    end
 
   # Given a Good / Bad words Dictionary, search for bad words and replace
   # them with good. Really loud method if verbose: true
@@ -104,7 +104,7 @@ class Find
 
   end
 
-  def substitute_words_in_comments(comments_array)
+  def substitute_words_in_comments(comments_array, verbose: true)
 
     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: I am now substituting comments."
     File.open("./good_words.txt") do |f|
@@ -123,10 +123,15 @@ class Find
       # each post ^
       comments.each do |comment|
         # each comment in post ^
-
+        @bad_words.each_with_index do |bad_word, index|
+          unless comment.gsub!(/\b#{bad_word}/, @good_words[index]) == nil
+            if verbose
+              puts Time.now.strftime(CLOCK_FORMAT) << "Finder: Substituting \"#{bad_word}\", for \"#{@good_words[index]}\""
+            end
+          end
+        end
       end
     end
-
   end
 
   # Checks for a match in *already edited @words* array.
