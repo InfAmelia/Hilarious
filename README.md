@@ -13,9 +13,6 @@
 * good_words  :  "Contains words to be swapped from."
 * build.rb    :  "Builds visits into new page to be viewed, after swapping."
 
-
-
-
 ##Things left to do:
 
 * Figure out API for page submission.
@@ -35,4 +32,4 @@
 
 ###Runtime: [Dictionary 10] => 0.12s
 ###Runtime: [Verbose + ^  ] => 2.79s
-###Runtime: [Online + ^   ] => TODO
+###Runtime: [Online + ^   ] => 310.35s

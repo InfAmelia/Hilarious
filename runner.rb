@@ -8,7 +8,7 @@ require './build.rb'
 
 LOUD = true
 CLOCK_FORMAT = "|%T.%L| "
-ONLINE = true
+ONLINE = false
 
 
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"

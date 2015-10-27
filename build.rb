@@ -13,20 +13,15 @@ class Build
   end
 
 
-  #
-  # # # # # # # # # # # # # # # # # # #
+  # title - visit.title
+  # text - visit.text
+  # sr - "testingHilarious"
+  # kind - "self"
+  # uh - "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
   def build_posts(visits, online: false)
     if online
       visits.each do |visit|
-        sleep(2) # This is how we be nice to Sites.
-        #title text sr        kind uh
-        #title body subreddit self userhash
-
-        # title - visit.title
-        # text - visit.text
-        # sr - "testingHilarious"
-        # kind - "self"
-        # uh - "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
+        sleep(2)
 
         RestClient.post( POST_URL,
         { :title => visit.title,
@@ -40,19 +35,17 @@ class Build
     end
   end
 
+
+  # title - visit.title
+  # text - visit.text
+  # sr - "testingHilarious"
+  # kind - "self"
+  # uh - "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
   def build_custom_posts(visits, sub, userhash, online: false)
     if online
       visits.each do |visit|
-        sleep(2) # This is how we be nice to Sites.
-        #title text sr        kind uh
-        #title body subreddit self userhash
-
-        # title - visit.title
-        # text - visit.text
-        # sr - "testingHilarious"
-        # kind - "self"
-        # uh - "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0"
-
+        sleep(2)
+        
         RestClient.post( POST_URL,
         { :title => visit.title,
           :text => " ",

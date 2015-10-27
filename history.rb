@@ -7,7 +7,7 @@ class History
 
   URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounter_divers_come_facetoface_with/"
   URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
-  
+
   OFFLINE_PARSE_URL = "./molamola.html"
   OFFLINE_CRAWL_URL = "./gifshead.html"
 
@@ -50,6 +50,8 @@ class History
     end
   end
 
+
+
   #
   # # # # # # # # # # # # # # # # # # #
   def add_titles_to_current_visits(titles, verbose: false)
@@ -62,25 +64,6 @@ class History
         @visits[index].title=(title) unless @visits[index] == nil
     end
   end
-
-  #     DEPRECATED
-  # # # # # # # # # # # # # # # # # # #
-  # def add_comment(comments, verbose: true)
-  #   if verbose
-  #     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding a comment."
-  #   end
-  #
-  #   @visits[0].comments=(comments)
-  # end
-  #
-  #    DEPRECATED
-  # # # # # # # # # # # # # # # # # # #
-  # def add_comments_array_to_current_visits(commentses, verbose: false)
-  #   commentses.each_with_index do |comments, index|
-  #     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added comments to #{visit[index]}"
-  #     commentses[index].add_comments(comments, verbose: verbose)
-  #   end
-  # end
 
   #
   # # # # # # # # # # # # # # # # # # #
@@ -106,7 +89,6 @@ class History
       @visits.each_with_index do |visit, index|
         if index == 2
           comments = Nokogiri::HTML(open("./molamola.html"))
-
           comments.xpath(COMMENT_PARSE_KEY).each do |comment|
             visit.add_comment(comment.text)
           end
@@ -134,8 +116,6 @@ class History
       end
     return comments
   end
-
-  # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@ Print Methods Below.
 
   #
   # # # # # # # # # # # # # # # # # # #
