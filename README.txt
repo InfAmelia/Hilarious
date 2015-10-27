@@ -33,9 +33,13 @@ Runtime: [Dictionary 1000] => 16.1s
 Things left to do:
 
 . Figure out API for page submission.
+. Handle server errors from source
 . Figure out how to add comments / controlling submissions.
-. Figure out how to make this server-ready.
 . Write recursive visiting to re-build each post.
 . Fix whatever I just broke.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@
+
+Fun Facts: About 500 lines of code.
+Current Fave Quote:
+"Checking if Cant drive anything! his hand is being bears contains SHIT"

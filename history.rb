@@ -1,23 +1,28 @@
 class History
 
 
-  URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
+      URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
   COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]/div[@class="md"]/p'
-  TITLE_PARSE_KEY = '//a[@class="title may-blank "]'
+    TITLE_PARSE_KEY = '//a[@class="title may-blank "]'
+
   URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounter_divers_come_facetoface_with/"
   URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
+  
   OFFLINE_PARSE_URL = "./molamola.html"
   OFFLINE_CRAWL_URL = "./gifshead.html"
 
 
+  #
   # # # # # # # # # # # # # # # # # # #
   def initialize()
-    puts Time.now.strftime(CLOCK_FORMAT) << "Historian standing by."
+    puts Time.now.strftime(CLOCK_FORMAT) << "Historian: Checking dewey decimal system."
     @visits = []
     commentses = []
   end
 
     attr_accessor :visits
+
+  #
   # # # # # # # # # # # # # # # # # # #
   def add_visit(visit, verbose: false)
     if verbose
@@ -28,6 +33,7 @@ class History
 
 
 
+  #
   # # # # # # # # # # # # # # # # # # #
   def add_links(links, verbose: false)
     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding links."
@@ -40,10 +46,11 @@ class History
           end
         end
 
-        add_visit(Visit.new(link))
+        add_visit(Visit.new(link), verbose: verbose)
     end
   end
 
+  #
   # # # # # # # # # # # # # # # # # # #
   def add_titles_to_current_visits(titles, verbose: false)
     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding titles."
@@ -56,25 +63,28 @@ class History
     end
   end
 
-
-  def add_comment(comments)
-    puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding a comment."
-
-    @visits[0].comments=(comments)
-  end
-
-  # THESE NEED WORK
+  #     DEPRECATED
   # # # # # # # # # # # # # # # # # # #
-  def add_comments_array_to_current_visits(commentses)
-    commentses.each_with_index do |comments, index|
-      puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added comments to #{visit[index]}"
-      commentses[index].add_comments(comments)
-    end
-  end
+  # def add_comment(comments, verbose: true)
+  #   if verbose
+  #     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding a comment."
+  #   end
+  #
+  #   @visits[0].comments=(comments)
+  # end
+  #
+  #    DEPRECATED
+  # # # # # # # # # # # # # # # # # # #
+  # def add_comments_array_to_current_visits(commentses, verbose: false)
+  #   commentses.each_with_index do |comments, index|
+  #     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added comments to #{visit[index]}"
+  #     commentses[index].add_comments(comments, verbose: verbose)
+  #   end
+  # end
 
   #
   # # # # # # # # # # # # # # # # # # #
-  def add_array_of_array_of_comments(c, online: true)
+  def add_array_of_array_of_comments(c, online: false)
 
     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding comments."
 
@@ -105,7 +115,8 @@ class History
     end
   end
 
-  # # # # # # # # # # # # # # # #
+  #
+  # # # # # # # # # # # # # # # # # # #
   def check_out_titles
     titles = []
       @visits.each do |visit|
@@ -114,16 +125,19 @@ class History
     return titles
   end
 
+  #
+  # # # # # # # # # # # # # # # # # # #
   def check_out_comment_library
     comments = []
       @visits.each do |visit|
         comments << visit.comments
       end
-    comments
+    return comments
   end
 
   # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@ Print Methods Below.
 
+  #
   # # # # # # # # # # # # # # # # # # #
   def print_at(index)
     @visits.each do |visit|
@@ -134,6 +148,7 @@ class History
     end
   end
 
+  #
   # # # # # # # # # # # # # # # # # # #
   def print_all(verbose: false)
     if verbose
@@ -141,12 +156,6 @@ class History
         puts "\t\t   | #{index}: #{visit.inspect}"
         puts
       end
-    else
-
-      @visits.each_with_index do |visit, index|
-        puts "\t\t   | #{index}: #{visit.comments}"
-      end
     end
   end
-
 end

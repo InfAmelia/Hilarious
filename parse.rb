@@ -1,24 +1,29 @@
 class Parse
 
 
-URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
-COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]//div[@class="md"]'
-TITLE_PARSE_KEY = '//a[@class="title may-blank "]'
+     URL_PARSE_KEY = '//a[@class="title may-blank "]/@href'
+ COMMENT_PARSE_KEY = '//div[@class="usertext-body may-blank-within md-container "]//div[@class="md"]'
+   TITLE_PARSE_KEY = '//a[@class="title may-blank "]'
+GIFSHEAD_PARSE_KEY = '//a[@class="comments may-blank"]/@href'
+
 URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounter_divers_come_facetoface_with/"
 URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
+
 OFFLINE_PARSE_URL = "./molamola.html"
 OFFLINE_CRAWL_URL = "./gifshead.html"
-GIFSHEAD_PARSE_KEY = '//a[@class="comments may-blank"]/@href'
+
 SUB_JUNK_COMMENT_NUM = 10
+ STICKIED_TITLES_NUM = 2
 
 
-# # # # # # # # # # # # # # # #
+#
+# # # # # # # # # # # # # # # # # # #
 def initialize
-  @links = []
-  @titles = []
+     @links = []
+    @titles = []
   @comments = []
 
-  puts Time.now.strftime(CLOCK_FORMAT) << "Parser standing by."
+  puts Time.now.strftime(CLOCK_FORMAT) << "Parser: I'm squinting really hard."
 end
 
 attr_accessor :links, :titles, :comments
@@ -26,7 +31,7 @@ attr_accessor :links, :titles, :comments
 # Crawls through URL_TO_CRAWL in order to find threads for parse_for_comments
 # URL_PARSE_KEY dictates the current method of searching for links.
 # # # # # # # # # # # # # # # #
-def parse_for_links(online: true, verbose: false)
+def parse_for_links(online: false, verbose: false)
   puts Time.now.strftime(CLOCK_FORMAT) << "Parser: I am now parsing for links."
 
   if online
@@ -111,12 +116,13 @@ end
 
 
 
-# # # # # # # # # # # #
+#
+# # # # # # # # # # # # # # # # # # #
 def parse_for_comments_from_visits(visits, online: false, verbose: false)
   if online
     visits.each do |visit|
       unless visit == nil
-        parse_for_comments(visit.link)
+        parse_for_comments(visit.link, online: online)
       end
     end
   else
@@ -129,17 +135,6 @@ def parse_for_comments_from_visits(visits, online: false, verbose: false)
     end
   end
 end
-
-
-# Checks @links for any content at all.
-# If empty, save some time and don't try and print anything.
-# # # # # # # # # # # # # # # #
-def empty_links?
-  if @links.empty?
-    puts "Something is wrong with crawling for links."
-  end
-end
-
 
 
 
@@ -172,8 +167,7 @@ def print_all_titles
   end
 end
 
-
-end
+end # End Parse Class
 
 class Comment
 
