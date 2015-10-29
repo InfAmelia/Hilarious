@@ -25,4 +25,9 @@ class Visit
     end
   end
 
+  #
+  # # # # # # # # # # # # # # # # # # #
+  def shift_comments(n)
+    @comments.shift(n)
+  end
 end

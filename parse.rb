@@ -9,8 +9,8 @@ GIFSHEAD_PARSE_KEY = '//a[@class="comments may-blank"]/@href'
 URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounter_divers_come_facetoface_with/"
 URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
 
-OFFLINE_PARSE_URL = "./molamola.html"
-OFFLINE_CRAWL_URL = "./gifshead.html"
+OFFLINE_PARSE_URL = "./plane.html"
+OFFLINE_CRAWL_URL = "./newgifshead.html"
 
 SUB_JUNK_COMMENT_NUM = 10
  STICKIED_TITLES_NUM = 2
@@ -98,17 +98,12 @@ def parse_for_comments(url, online: false)
     if online
       thread = Nokogiri::HTML(open(url))
       thread.xpath(COMMENT_PARSE_KEY).each_with_index do |node, index|
-
-         unless index <= SUB_JUNK_COMMENT_NUM
            @comments << Comment.new.text=(node.text)
-         end
       end
     else
       thread = Nokogiri::HTML(open(url))
       thread.xpath(COMMENT_PARSE_KEY).each_with_index do |node, index|
-        unless index <= SUB_JUNK_COMMENT_NUM
           @comments << Comment.new.text=(node.text)
-        end
       end
     end
   #end

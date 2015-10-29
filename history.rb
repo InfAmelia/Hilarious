@@ -1,3 +1,4 @@
+#require 'open-uri'
 class History
 
 
@@ -8,8 +9,10 @@ class History
   URL_TO_PARSE = "https://www.reddit.com/r/gifs/comments/3okq6n/in_a_rare_encounter_divers_come_facetoface_with/"
   URL_TO_CRAWL = "https://www.reddit.com/r/gifs/"
 
-  OFFLINE_PARSE_URL = "./molamola.html"
-  OFFLINE_CRAWL_URL = "./gifshead.html"
+  OFFLINE_PARSE_URL = "./plane.html"
+  OFFLINE_CRAWL_URL = "./newgifshead.html"
+
+  STICKY_COMMENTS = 8
 
 
   #
@@ -20,7 +23,7 @@ class History
     commentses = []
   end
 
-    attr_accessor :visits
+  attr_accessor :visits
 
   #
   # # # # # # # # # # # # # # # # # # #
@@ -46,7 +49,7 @@ class History
           end
         end
 
-        add_visit(Visit.new(link), verbose: verbose)
+        add_visit(Visit.new(URI.escape(link)), verbose: verbose)
     end
   end
 
@@ -58,11 +61,11 @@ class History
     puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I am now adding titles."
 
     titles.each_with_index do |title, index|
-      if verbose
-        puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added a title."
+        if verbose
+          puts Time.now.strftime(CLOCK_FORMAT) << "Historian: I have added a title."
+        end
+          @visits[index].title=(title) unless @visits[index] == nil
       end
-        @visits[index].title=(title) unless @visits[index] == nil
-    end
   end
 
   #
@@ -84,19 +87,29 @@ class History
           visit.add_comment(comment.text)
           end
         end
+          visit.shift_comments(STICKY_COMMENTS)
       end
     else
       @visits.each_with_index do |visit, index|
         if index == 2
-          comments = Nokogiri::HTML(open("./molamola.html"))
+          comments = Nokogiri::HTML(open("./plane.html"))
           comments.xpath(COMMENT_PARSE_KEY).each do |comment|
             visit.add_comment(comment.text)
           end
+          visit.shift_comments(STICKY_COMMENTS)
         end
       end
     end
   end
 
+
+  def shift_visits(n)
+      if n > 1
+        plural = "s"
+      end
+      puts Time.now.strftime(CLOCK_FORMAT) << "Historian: Cleaning up the mess: #{n} visit#{plural} removed."
+      @visits.shift(n)
+  end
   #
   # # # # # # # # # # # # # # # # # # #
   def check_out_titles

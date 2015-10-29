@@ -6,9 +6,10 @@ require './parse.rb'
 require './find.rb'
 require './build.rb'
 
-LOUD = true
+LOUD = false
 CLOCK_FORMAT = "|%T.%L| "
-ONLINE = false
+ONLINE = true
+STICKY_POSTS = 1
 
 
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"
@@ -27,6 +28,8 @@ ONLINE = false
           historian.add_links(parser.links, verbose: LOUD)
           historian.add_titles_to_current_visits(parser.titles, verbose: LOUD)
           historian.add_array_of_array_of_comments(parser.parse_for_comments_from_visits(historian.visits, online: ONLINE), online: ONLINE)
+          historian.shift_visits(STICKY_POSTS)
+
 
           # Find words to swap from history.
           finder.substitute_titles(historian.check_out_titles, verbose: LOUD)
@@ -44,4 +47,4 @@ ONLINE = false
           puts "|            |"
           puts Time.now.strftime(CLOCK_FORMAT) << "Total Runtime: #{runtime} seconds."
 
-    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"
+    puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"

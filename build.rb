@@ -45,7 +45,7 @@ class Build
     if online
       visits.each do |visit|
         sleep(2)
-        
+
         RestClient.post( POST_URL,
         { :title => visit.title,
           :text => " ",
