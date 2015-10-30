@@ -49,7 +49,6 @@ def parse_for_links(online: false, verbose: false)
   else
     sub = Nokogiri::HTML(open(OFFLINE_CRAWL_URL))
     sub.xpath(GIFSHEAD_PARSE_KEY).each do |node|
-
       @links << node.text
       if verbose
         if node.text.size > 35
@@ -61,7 +60,6 @@ def parse_for_links(online: false, verbose: false)
     end
   end
 end
-
 
 # Crawls through URL_TO_CRAWL in order to find titles to later manipulate
 # for hilarious ends.
@@ -109,8 +107,6 @@ def parse_for_comments(url, online: false)
   #end
 end
 
-
-
 #
 # # # # # # # # # # # # # # # # # # #
 def parse_for_comments_from_visits(visits, online: false, verbose: false)
@@ -130,12 +126,6 @@ def parse_for_comments_from_visits(visits, online: false, verbose: false)
     end
   end
 end
-
-
-
-
-### ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@ Print Methods Below.
-
 
 # Prints all links gathered by parse_for_links
 # # # # # # # # # # # # # # # #
@@ -171,7 +161,7 @@ class Comment
     @text = text
   end
 
-  attr_accessor :user, :text
 
+  attr_accessor :user, :text
 
 end

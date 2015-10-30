@@ -6,10 +6,11 @@ require './parse.rb'
 require './find.rb'
 require './build.rb'
 
-LOUD = false
+LOUD = true
 CLOCK_FORMAT = "|%T.%L| "
-ONLINE = true
+ONLINE = false
 STICKY_POSTS = 1
+SPEED = 0.0001
 
 
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"
@@ -32,19 +33,18 @@ STICKY_POSTS = 1
 
 
           # Find words to swap from history.
-          finder.substitute_titles(historian.check_out_titles, verbose: LOUD)
-          finder.substitute_words_in_comments(historian.check_out_comment_library, verbose: LOUD)
+          finder.substitute_titles(historian.check_out_titles, verbose: LOUD, speed: SPEED)
+          finder.substitute_words_in_comments(historian.check_out_comment_library, verbose: LOUD, speed: SPEED)
 
           # Build a post request with visit information.
           builder.build_posts(historian.visits, online: false)
 
           # Print from storage.
-          historian.print_all(verbose: LOUD)
+          historian.print_most(verbose: LOUD)
 
           # Clean up, report performance.
           end_time = Time.now
           runtime = end_time - start_time
-          puts "|            |"
           puts Time.now.strftime(CLOCK_FORMAT) << "Total Runtime: #{runtime} seconds."
 
     puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~@"

@@ -34,8 +34,6 @@ class History
     @visits.push(visit)
   end
 
-
-
   #
   # # # # # # # # # # # # # # # # # # #
   def add_links(links, verbose: false)
@@ -52,8 +50,6 @@ class History
         add_visit(Visit.new(URI.escape(link)), verbose: verbose)
     end
   end
-
-
 
   #
   # # # # # # # # # # # # # # # # # # #
@@ -102,7 +98,8 @@ class History
     end
   end
 
-
+  #
+  # # # # # # # # # # # # # # # # # # #
   def shift_visits(n)
       if n > 1
         plural = "s"
@@ -110,6 +107,7 @@ class History
       puts Time.now.strftime(CLOCK_FORMAT) << "Historian: Cleaning up the mess: #{n} visit#{plural} removed."
       @visits.shift(n)
   end
+
   #
   # # # # # # # # # # # # # # # # # # #
   def check_out_titles
@@ -148,6 +146,17 @@ class History
       @visits.each_with_index do |visit, index|
         puts "\t\t   | #{index}: #{visit.inspect}"
         puts
+      end
+    end
+  end
+
+
+  def print_most(verbose: false)
+    if verbose
+        puts "|            |"
+      @visits.each_with_index do |visit, index|
+        puts "|            | #{index}: #{visit}:  \"#{visit.title}\""
+        puts "|            |"
       end
     end
   end

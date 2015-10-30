@@ -18,16 +18,15 @@ class Find
 
   #
   # # # # # # # # # # # # # # # # # # #
-  def substitute_titles(titles_array, verbose: false)
+  def substitute_titles(titles_array, verbose: false, speed: 0.0167)
     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: I am now subtituting titles."
-    substitute_words_in_titles(titles_array, verbose: verbose)
+    substitute_words_in_titles(titles_array, verbose: verbose, speed: speed)
   end
-
 
   # Given a Good / Bad words Dictionary, search for bad words and replace
   # them with good. Really loud method if verbose: true
   # # # # # # # # # # # # # # # #
-  def substitute_words_in_titles(titles_array, verbose: false)
+  def substitute_words_in_titles(titles_array, verbose: false, speed: 0.0167)
       # Build Good Words
       # # #
       File.open("./good_words.txt") do |f|
@@ -49,7 +48,7 @@ class Find
       titles_array.each do |title|
         @bad_words.each_with_index do |bad_word, index|
           if verbose
-            sleep(0.0167) # Ensures smooth movement - 60 fps - processing time
+            sleep(speed) # Ensures smooth movement - 60 fps - processing time
             puts "|            | " << "Checking if #{title} contains #{bad_word}"
           end
 
@@ -65,7 +64,7 @@ class Find
 
   #
   # # # # # # # # # # # # # # # # # # #
-  def substitute_words_in_comments(comments_array, verbose: false)
+  def substitute_words_in_comments(comments_array, verbose: false, speed: 0.0167)
     puts Time.now.strftime(CLOCK_FORMAT) << "Finder: I am now substituting comments."
     File.open("./good_words.txt") do |f|
         f.each_line do |line|
@@ -86,7 +85,7 @@ class Find
         @bad_words.each_with_index do |bad_word, index|
           unless comment.gsub!(/\b#{bad_word}/, @good_words[index]) == nil
             if verbose
-              sleep(0.0167) # Ensures smooth movement => 60 fps - processing time
+              sleep(speed) # Ensures smooth movement => 60 fps - processing time
               puts "|            | " << "Finder: Substituting \"#{bad_word}\", for \"#{@good_words[index]}\""
             end
           end
