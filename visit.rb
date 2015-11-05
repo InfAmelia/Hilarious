@@ -1,6 +1,6 @@
 class Visit
 
-  attr_accessor :link, :title, :comments
+  attr_accessor :link, :title, :comments, :users
 
   #
   # # # # # # # # # # # # # # # # # # #
@@ -8,12 +8,19 @@ class Visit
     @link = link
     @title = "  "
     @comments = []
+    @users = []
   end
 
   #
   # # # # # # # # # # # # # # # # # # #
   def add_comment(comment)
-    @comments.push(comment)
+    @comments << comment
+  end
+
+  #
+  # # # # # # # # # # # # # # # # # # #
+  def add_user(user)
+    @users << user
   end
 
   #

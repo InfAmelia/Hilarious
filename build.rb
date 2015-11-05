@@ -64,10 +64,10 @@ class Build
   #
   # # # # # # # # # # # # # # # #
   def submit_comments(link, comments)
-      puts Time.now.strftime(CLOCK_FORMAT) << "Builder: Posting to #{link}"
-      comments.each do |comment|
-        puts Time.now.strftime(CLOCK_FORMAT) << "Builder: Posting #{comment}"
-      end
+    puts Time.now.strftime(CLOCK_FORMAT) << "Builder: Posting to #{link}"
+    comments.each do |comment|
+      puts Time.now.strftime(CLOCK_FORMAT) << "Builder: Posting #{comment}"
+    end
   end
 
 end

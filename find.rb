@@ -1,5 +1,6 @@
 class Find
 
+
   # # Breaks Comments, Titles into words. Finds words that match "bad_words"
   # # # # # # # # # # # # # # # #
   def initialize
@@ -27,39 +28,32 @@ class Find
   # them with good. Really loud method if verbose: true
   # # # # # # # # # # # # # # # #
   def substitute_words_in_titles(titles_array, verbose: false, speed: 0.0167)
-      # Build Good Words
-      # # #
-      File.open("./good_words.txt") do |f|
-          f.each_line do |line|
-              @good_words << line.chomp
-          end
-      end
-
-      # Build Bad Words
-      # # #
-      File.open("./bad_words.txt") do |f|
+    File.open("./good_words.txt") do |f|
         f.each_line do |line|
-          @bad_words << line.chomp
+            @good_words << line.chomp
         end
-      end
-      # Checks given words for matches in bad_words
-      # # #
+    end
 
-      titles_array.each do |title|
-        @bad_words.each_with_index do |bad_word, index|
+    File.open("./bad_words.txt") do |f|
+      f.each_line do |line|
+        @bad_words << line.chomp
+      end
+    end
+
+    titles_array.each do |title|
+      @bad_words.each_with_index do |bad_word, index|
+        if verbose
+          sleep(speed) # Ensures smooth movement - 60 fps - processing time
+          puts "|            | " << "Checking if #{title} contains #{bad_word}"
+        end
+
+         unless title.gsub!(/\b#{bad_word}/, @good_words[index]) == nil
           if verbose
-            sleep(speed) # Ensures smooth movement - 60 fps - processing time
-            puts "|            | " << "Checking if #{title} contains #{bad_word}"
-          end
-
-           unless title.gsub!(/\b#{bad_word}/, @good_words[index]) == nil
-            if verbose
-              puts "|            | " << "Finder: Substituting \"#{bad_word}\", for \"#{@good_words[index]}\""
-            end
+            puts "|            | " << "Finder: Substituting \"#{bad_word}\", for \"#{@good_words[index]}\""
           end
         end
       end
-
+    end
   end
 
   #
@@ -85,7 +79,7 @@ class Find
         @bad_words.each_with_index do |bad_word, index|
           unless comment.gsub!(/\b#{bad_word}/, @good_words[index]) == nil
             if verbose
-              sleep(speed) # Ensures smooth movement => 60 fps - processing time
+              sleep(speed)
               puts "|            | " << "Finder: Substituting \"#{bad_word}\", for \"#{@good_words[index]}\""
             end
           end
