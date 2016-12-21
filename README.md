@@ -1,5 +1,7 @@
 #Hilarious Web Crawler
 
+NOTE: THIS IS NO LONGER IN DEVELOPMENT BUT LEFT HERE FOR LOL PURPOSES.
+
 ##CONTENTS
 * runner.rb   :  "Main Execution, constructs every other class."
 * parse.rb    :  "Receives page for parsing, responsible for finding links + titles => visits."
